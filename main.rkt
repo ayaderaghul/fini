@@ -33,7 +33,7 @@
          [before-mutation
           (shuffle (append survivors successors))]
          [new-population
-          (mutate-population mutation before-mutation)]
+          (mutate-populations mutation before-mutation)]
          )
     (set! population-mean
           (append population-mean (list average-payoff)))
