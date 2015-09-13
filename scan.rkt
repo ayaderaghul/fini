@@ -1,8 +1,13 @@
 #lang racket
 (require "auto.rkt")
+(require "match.rkt")
+
 (provide scan-init
 	scan
-	scan-types)
+	scan-types
+        rank-flattened
+        top
+        contest)
 
 ;; SCAN
 (define (scan-init population)
@@ -15,13 +20,28 @@
                   add1 0))
    (hash)
    population))
+
 (define (scan population)
   (foldl
    (lambda (au h)
      (hash-update h au add1 0))
    (hash)
    population))
-(define (hash-ref* a-hash a-key)
+
+(define (scan-flattened population)
+  (let ([flattened (map flatten-automaton population)])
+    (foldl
+     (lambda (au h)
+       (hash-update h au add1 0))
+   (hash)
+   flattened)))
+
+(define (rank-flattened population)
+  (let ([ranking (hash->list (scan-flattened population))])
+    (sort ranking > #:key cdr)))
+
+
+  (define (hash-ref* a-hash a-key)
   (if (hash-has-key? a-hash a-key)
       (hash-ref a-hash a-key)
       0))
@@ -30,3 +50,22 @@
     (list
      (hash-ref* types 0)
      (hash-ref* types 1))))
+
+;; TOP
+(define (top t population)
+  (let* ([flattened (map car (rank-flattened population))]
+         [automaton (map make-automaton (take flattened t))])
+    (for/list ([i t])
+      (eval
+       (list 'define (x->ax i)
+             (list-ref automaton i))))))
+
+(define (x->ax x)
+  (string->symbol (string-append "a" (number->string x))))
+
+(define (generate-ax a-list)
+  (map x->ax a-list))
+
+(define (contest an-auto a-list)
+  (for/list ([n (length a-list)])
+    (match-pair (list an-auto (first a-list)) 10)))

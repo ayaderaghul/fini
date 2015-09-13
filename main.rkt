@@ -3,7 +3,8 @@
          "match.rkt"
          "mutation.rkt"
          "scan.rkt"
-         "tv.rkt")
+         "tv.rkt"
+	"out.rkt")
 
 
 ;; generate population
@@ -37,8 +38,11 @@
          )
     (set! population-mean
           (append population-mean (list average-payoff)))
-    (set! demographic
-          (append demographic (list demo)))
+    (out-rank cycles population)
+     ;; (set! demographic
+     ;;       (append demographic (list demo)))
     (if (zero? cycles)
-        population
+        (begin
+          (plot-mean population-mean)
+          (out-mean population-mean))
         (evolve new-population (sub1 cycles) speed mutation rounds-per-match))))
