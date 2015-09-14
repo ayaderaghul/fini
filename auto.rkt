@@ -13,7 +13,8 @@
          react
          update
          flatten-automaton
-         make-automaton)
+         make-automaton
+	state-labels)
 
 ;; AUTOMATON
 (struct state (name result0 result1 result2) #:transparent)
@@ -77,3 +78,10 @@
                    (apply state (take (drop a-list 9) 4))
                    (apply state (take (drop a-list 13) 4))
                    (apply state (take-right a-list 4)))))
+
+
+(define (state-labels automaton)
+  (map (lambda (a-state)
+         (state-name a-state))
+       (automaton-states automaton)))
+

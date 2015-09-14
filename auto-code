@@ -1,0 +1,9 @@
+VertexCircle[{xc_, yc_}, name_, {w_, h_}] := Disk[{xc, yc}, .1];
+a1Graph =
+Graph[{-1 -> 3, Labeled[0 -> 3, "L"], Labeled[0 -> 2, "M"], Labeled[0 -> 4, "H"], Labeled[1 -> 4, "L,H"], Labeled[1 -> 0, "M"], Labeled[2 -> 1, "L"], Labeled[2 -> 2, "M"], Labeled[2 -> 4, "H"], Labeled[3 -> 4, "L"], Labeled[3 -> 2, "M,H"], Labeled[4 -> 4, "L,H"], Labeled[4 -> 2, "M"]},
+   EdgeShapeFunction -> GraphElementData["EdgeShapeFunction", "FilledArrow"],
+   VertexStyle -> LightGray,
+   VertexShapeFunction -> VertexCircle,
+   VertexLabels -> {0 -> Placed["L", Center], 1 -> Placed["H", Center], 2 -> Placed["M", Center], 3 -> Placed["H", Center], 4 -> Placed["M", Center]}
+  ];
+Export["a1.png", a1Graph];

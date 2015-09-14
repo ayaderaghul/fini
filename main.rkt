@@ -38,11 +38,12 @@
          )
     (set! population-mean
           (append population-mean (list average-payoff)))
-    (out-rank cycles population)
+    ;;(out-rank cycles population)
      ;; (set! demographic
      ;;       (append demographic (list demo)))
     (if (zero? cycles)
         (begin
           (plot-mean population-mean)
-          (out-mean population-mean))
+          ;;(out-mean population-mean)
+          population)
         (evolve new-population (sub1 cycles) speed mutation rounds-per-match))))
