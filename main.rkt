@@ -40,8 +40,8 @@
     (set! population-mean
           (append population-mean (list average-payoff)))
     ;;(out-rank cycles population)
-     ;; (set! demographic
-     ;;       (append demographic (list demo)))
+      (set! demographic
+            (append demographic (list demo)))
     (if (zero? cycles)
         (begin
           (plot-mean population-mean)
