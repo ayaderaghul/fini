@@ -23,8 +23,8 @@
             [result-state2 (jump-to-state (car previous-claims) auto2)]
             [reaction1 (react (last previous-claims) auto1)]
             [reaction2 (react (car previous-claims) auto2)])
-        (match-pair* (begin (update auto1 result-state1) auto1)
-                     (begin (update auto2 result-state2) auto2)
+        (match-pair* (update auto1 result-state1)
+                     (update auto2 result-state2)
                      (append results (list
                                       (match-claims previous-claims)))
                      (list reaction1 reaction2)

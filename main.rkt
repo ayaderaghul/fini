@@ -3,6 +3,7 @@
          "match.rkt"
          "mutation.rkt"
          "scan.rkt"
+	"test.rkt"
          "tv.rkt"
 	"out.rkt")
 
