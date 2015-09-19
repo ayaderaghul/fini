@@ -141,7 +141,7 @@
   (for ([i (length a-list)])
     (with-output-to-file "auto-code"
       (lambda () (printf (generate-code a-list i x)))
-      #:exists 'replace)))
+      #:exists 'append)))
 
 (define (name x n)
   (string->symbol (string-append x (number->string n))))
