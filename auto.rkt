@@ -6,15 +6,18 @@
          state-result0
          state-result1
          state-result2
+
          automaton-states
          automaton-current-state
+
          generate-auto
-	jump-to-state
+         jump-to-state
          react
          update
          flatten-automaton
          make-automaton
-	state-labels)
+         state-labels
+         current-claim)
 
 ;; AUTOMATON
 (struct state (name result0 result1 result2) #:transparent)
@@ -29,8 +32,6 @@
    (automaton-current-state an-auto)))
 
 ;; output: claim, not state
-
-
 (define (jump-to-state an-event an-auto)
   (let ([result-state (filter-state an-auto)])
     (cond [(= an-event 0) (state-result0 result-state)]
@@ -39,13 +40,11 @@
 
 (define (react an-event an-auto)
 (state-name
-(list-ref (automaton-states an-auto) 
+(list-ref (automaton-states an-auto)
 (jump-to-state an-event an-auto))))
 
 (define (update old-auto new-state)
   (struct-copy automaton old-auto [current-state new-state]))
-
-
 
 ; generate random automaton (random current state, random result-state
 ; after each event
@@ -56,7 +55,6 @@
                    (state (random 3) (random 5) (random 5) (random 5))
                    (state (random 3) (random 5) (random 5) (random 5))
                    (state (random 3) (random 5) (random 5) (random 5)))))
-
 
 (define (flatten-state a-state)
   (map (lambda (f) (f a-state))
@@ -79,9 +77,12 @@
                    (apply state (take (drop a-list 13) 4))
                    (apply state (take-right a-list 4)))))
 
-
 (define (state-labels automaton)
   (map (lambda (a-state)
          (state-name a-state))
        (automaton-states automaton)))
 
+(define (current-claim automaton)
+  (state-name
+   (list-ref (automaton-states automaton)
+             (automaton-current-state automaton))))

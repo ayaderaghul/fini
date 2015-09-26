@@ -1,11 +1,10 @@
 #lang racket
 (require "auto.rkt")
 (require "match.rkt")
-
 (provide scan-init
 	scan
 	scan-types
-        rank-flattened
+        rank
         top
         contest)
 
@@ -36,10 +35,9 @@
    (hash)
    flattened)))
 
-(define (rank-flattened population)
+(define (rank population)
   (let ([ranking (hash->list (scan-flattened population))])
     (sort ranking > #:key cdr)))
-
 
   (define (hash-ref* a-hash a-key)
   (if (hash-has-key? a-hash a-key)
@@ -53,7 +51,7 @@
 
 ;; TOP
 (define (top t population)
-  (let* ([flattened (map car (rank-flattened population))]
+  (let* ([flattened (map car (rank population))]
          [automaton (map make-automaton (take flattened t))])
     (for/list ([i t])
       (eval
@@ -68,4 +66,4 @@
 
 (define (contest an-auto a-list)
   (for/list ([n (length a-list)])
-    (match-pair (list an-auto (first a-list)) 10)))
+    (match-pair (list an-auto (list-ref a-list n)) 10)))

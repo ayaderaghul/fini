@@ -27,7 +27,7 @@
 
 (define (out-rank day population)
   (out-data "rank" (append (list (list day))
-                           (map list (rank-flattened population)))))
+                           (map list (rank population)))))
 
 
 (define (chop automaton)

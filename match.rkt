@@ -1,9 +1,8 @@
 #lang racket
 (require "auto.rkt")
 (provide match-claims
-	match-pair
-	match-population)
-
+         match-pair
+         match-population)
 
 (define (match-claims claims)
   (if (<= (apply + claims) 2)
@@ -12,9 +11,9 @@
 
 (define (convert-payoff x)
   (cond [(= x -1) 0]
-        [(= x 0) 2]
+        [(= x 0) 1]
         [(= x 1) 5]
-        [(= x 2) 8]))
+        [(= x 2) 9]))
 
 (define (match-pair* auto1 auto2 results previous-claims countdown)
   (if (zero? countdown)
@@ -30,13 +29,6 @@
                      (list reaction1 reaction2)
                      (sub1 countdown)))))
 
-;; current claim
-(define (current-claim an-auto)
-  (state-name
-   (list-ref (automaton-states an-auto)
-             (automaton-current-state an-auto))))
-
-
 ;; match a pair of automaton for n rounds
 ;; return a list of round results
 (define (match-pair automaton-pair rounds-per-match)
@@ -46,14 +38,11 @@
                (map current-claim automaton-pair)
                rounds-per-match))
 
-
-
 ;; in each match, take mean of round results for each automaton
 ;; returns a pair of means
 (define (take-sums round-results)
   (map (lambda (f) (apply +  (map f round-results)))
        (list first second)))
-
 
 (define (match-population population rounds-per-match)
   (for/list ([i (/ (length population)
